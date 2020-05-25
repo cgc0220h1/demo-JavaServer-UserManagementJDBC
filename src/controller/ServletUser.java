@@ -42,6 +42,21 @@ public class ServletUser extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "edit":
+                try {
+                    updateUser(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "create":
+                try {
+                    insertUser(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
     }
 
@@ -96,7 +111,7 @@ public class ServletUser extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userDAO.selectUser(id);
+        User existingUser = userDAO.getUserById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("views/edit.jsp");
         request.setAttribute("user", existingUser);
         dispatcher.forward(request, response);
@@ -108,7 +123,7 @@ public class ServletUser extends HttpServlet {
         String email = request.getParameter("email");
         String country = request.getParameter("country");
         User newUser = new User(name, email, country);
-        userDAO.insertUser(newUser);
+        userDAO.insertUserStore(newUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("views/create.jsp");
         dispatcher.forward(request, response);
     }
