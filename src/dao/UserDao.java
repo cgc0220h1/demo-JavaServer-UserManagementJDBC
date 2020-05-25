@@ -7,6 +7,7 @@ import model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserDao implements IUserDao {
@@ -27,7 +28,7 @@ public class UserDao implements IUserDao {
         Connection connection = null;
         String jdbcURL = "jdbc:mysql://localhost:3306/demo";
         String jdbcUsername = "root";
-        String jdbcPassword = "anhnam420";
+        String jdbcPassword = "123456";
 
         try {
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -124,6 +125,30 @@ public class UserDao implements IUserDao {
             handleSQLException(e);
         }
         return result;
+    }
+
+    @Override
+    public List<User> searchByCountry(String country) {
+        List<User> userList = new LinkedList<>();
+        String query = "SELECT *\n" +
+                "FROM users\n" +
+                "WHERE country LIKE ?\n" +
+                "ORDER BY name;";
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + country + "%");
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                userList.add(new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("country")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
     }
 
     private void handleSQLException(SQLException ex) {

@@ -21,6 +21,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.35" level="application_server_libraries" />
     <orderEntry type="library" name="jsp-api-2.1-6.0.2" level="project" />
-    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.15" level="application" />
+    <orderEntry type="library" name="javax.servlet:jstl:1.2" level="project" />
   </component>
 </module>
